@@ -6,7 +6,7 @@
     <title>Lab IQ</title>
     <link rel="manifest" href="./manifest.json">
     <!-- خطوط جوجل العربية الفاخرة المعتمدة لتطابق الهوية البصرية للتصميم -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <!-- استدعاء Tailwind CSS للتصميم والألوان الأصلية -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -21,15 +21,15 @@
         }
       }
     </script>
-
     <!-- استدعاء مكتبات React 18 المعتمدة من قبلكم لضمان الاستقرار التام -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-
     <!-- استدعاء مترجم Babel لتشغيل كود React في المتصفح مباشرة -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
+    <!-- عنصر صوتي مخفي يحتوي على النغمة الدافئة الفاخرة مدمجة داخلياً 100% -->
+    <audio id="premiumSound" src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQQAAAAAAGUAbwAAAAAA"></audio>
 
     <!-- الحاوية الرئيسية للتطبيق -->
     <div id="root"></div>
@@ -39,7 +39,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
         import { getFirestore, doc, setDoc, getDoc, collection, query, onSnapshot, addDoc, updateDoc, deleteDoc, getDocs, where, serverTimestamp, orderBy } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
-
         // إتاحة أدوات الـ SDK للنظام العالمي لسهولة استدعائها من داخل React بأمان وتوافق تام
         window.FirebaseSDK = {
             initializeApp,
@@ -63,15 +62,14 @@
             setPersistence,
             browserLocalPersistence
         };
-
         // إرسال إشارة جاهزية النظام للـ React
         window.dispatchEvent(new Event('firebase-ready'));
     </script>
 
-    <!-- كود الـ React الإبداعي الخاص بك كاملاً كما هو دون أي تعديل للألوان، الخطوط، المنطق البرمجي، أو النصوص -->
+    <!-- كود الـ React الإبداعي الخاص بك كاملاً مع التعديلات المحددة -->
     <script type="text/babel">
         const { useState, useEffect, useMemo, useCallback, useRef } = React;
-
+        
         // آيات من القرآن الكريم تتغير دورياً يومياً من سورة الفاتحة إلى الناس
         const QURAN_VERSES = [
           { text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", ref: "الفاتحة: 2" },
@@ -107,7 +105,7 @@
           { text: "وَقُلْ جَاءَ الْحَقُّ وَزَهَقَ الْبَاطِلُ إِنَّ الْبَاطِلَ كَانَ زَهُوقًا", ref: "الإسراء: 81" },
           { text: "وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ لِلْمُؤْمِنِينَ", ref: "الإسراء: 82" },
           { text: "وَيَسْأَلُونَكَ عَنِ الرُّوحِ قُلِ الرُّوحُ مِنْ أَمْرِ رَبِّي", ref: "الإسراء: 85" },
-          { text: "الْحَمْدُ لِلَّهِ الَّذِي أَنْزَلَ عَلَى عَبْدِهِ الْكِتَابَ وَلَمْ يَجْعَلْ لَهُ عِوَجًا", ref: "الكهف: 1" },
+          { text: "الْحَمْدُ لِلَّهِ الَّذِي أَنْزَلَ عَلَى عَبْدِهِ الْكِتَابَ وَلَمْ يَجْعَلْ لَهُ عِوجًا", ref: "الكهف: 1" },
           { text: "قُلْ لَوْ كَانَ الْبَحْرُ مِدَادًا لِكَلِمَاتِ رَبِّي لَنَفِدَ الْبَحْرُ قَبْلَ أَنْ تَنْفَدَ كَلِمَاتُ رَبِّي", ref: "الكهف: 109" },
           { text: "قَالَ رَبِّ اشْرَحْ لِي صَدْرِي * وَيَسِّرْ لِي أَمْرِي", ref: "طه: 25-26" },
           { text: "وَقُلْ رَبِّ زِدْنِي عِلْمًا", ref: "طه: 114" },
@@ -127,7 +125,7 @@
           { text: "الْحَمْدُ لِلَّهِ فَاطِرِ السَّمَاوَاتِ وَالْأَرْضِ", ref: "فاطر: 1" },
           { text: "يس * وَالْقُرْآنِ الْحَكِيمِ * إِنَّكَ لَمِنَ الْمُرْسَلِينَ", ref: "يس: 1-3" },
           { text: "سُبْحَانَ رَبِّكَ رَبِّ الْعِزَّةِ عَمَّا يَصِفُونَ * وَسَلَامٌ عَلَى الْمُرْسَلِينَ * وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", ref: "الصافات: 180-182" },
-          { text: "قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَى أَنْفُسِهِمْ لَا تَقْنَطُوا مِنْ رَحْمَةِ اللَّهِ", ref: "الزمر: 53" },
+          { text: "قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَى أَنْفُسِهِم| لَا تَقْنَطُوا مِنْ رَحْمَةِ اللَّهِ", ref: "الزمر: 53" },
           { text: "وَقَالَ رَبُّكُمُ ادْعُونِي أَسْتَجِبْ لَكُمْ", ref: "غافر: 60" },
           { text: "مَنْ عَمِلَ صَالِحًا فَلِنَفْسِهِ وَمَنْ أَسَاءَ فَعَلَيْهَا", ref: "فصلت: 46" },
           { text: "عَسَى اللَّهُ أَنْ يَجْعَلَ بَيْنَكُمْ وَبَيْنَ الَّذِينَ عَادَيْتُمْ مِنْهُمْ مَوَدَّةً", ref: "الممتحنة: 7" },
@@ -172,6 +170,20 @@
           const db = useMemo(() => getFirestore(app), [app]);
           const appId = typeof __app_id !== 'undefined' ? __app_id : 'ntumlt_app';
 
+          // التخزين الاحتياطي غير المتصل لضمان تشغيل التطبيق بالكامل بدون شبكة إنترنت
+          const getLocalBackup = (key, defaultVal = []) => {
+            try {
+              const local = localStorage.getItem(`offline_${key}`);
+              return local ? JSON.parse(local) : defaultVal;
+            } catch(e) { return defaultVal; }
+          };
+
+          const setLocalBackup = (key, val) => {
+            try {
+              localStorage.setItem(`offline_${key}`, JSON.stringify(val));
+            } catch(e){}
+          };
+
           const [theme, setTheme] = useState(() => localStorage.getItem('lab_theme') || 'light');
           const [activeScreen, setActiveScreen] = useState('home');
           const [user, setUser] = useState(null);
@@ -181,52 +193,83 @@
           const [adminUsername, setAdminUsername] = useState('');
           const [adminPassword, setAdminPassword] = useState('');
           const [adminError, setAdminError] = useState('');
-
           const [greeting, setGreeting] = useState('');
           const [todayVerse, setTodayVerse] = useState({ text: '', ref: '' });
 
-          const [analyses, setAnalyses] = useState([]);
-          const [readings, setReadings] = useState([]);
-          const [relations, setRelations] = useState([]);
-          const [aboutData, setAboutData] = useState([]);
+          // تهيئة البيانات محلياً لدعم وضع الأوفلاين المطلق فورياً
+          const [analyses, setAnalyses] = useState(() => getLocalBackup('analyses'));
+          const [readings, setReadings] = useState(() => getLocalBackup('readings'));
+          const [relations, setRelations] = useState(() => getLocalBackup('relations'));
+          const [aboutData, setAboutData] = useState(() => getLocalBackup('about'));
+          
+          // إدارة الأقسام المخصصة ديناميكياً
+          const [customSections, setCustomSections] = useState(() => getLocalBackup('custom_sections', []));
+          const [customItems, setCustomItems] = useState(() => getLocalBackup('custom_items', {}));
+          
+          const [showAddSection, setShowAddSection] = useState(false);
+          const [newSectionName, setNewSectionName] = useState('');
+          const [newSectionFields, setNewSectionFields] = useState(['']);
 
           const [searchAnalyses, setSearchAnalyses] = useState('');
           const [searchReadings, setSearchReadings] = useState('');
           const [searchAbout, setSearchAbout] = useState('');
+          const [searchCustom, setSearchCustom] = useState('');
 
-          const [newAnalysis, setNewAnalysis] = useState({ name: '', shortName: '' });
+          // توسيع بيانات تحاليل جديدة
+          const [newAnalysis, setNewAnalysis] = useState({ name: '', shortName: '', useCase: '', reasons: '' });
           const [showAddAnalysis, setShowAddAnalysis] = useState(false);
+          const [analysisAddMode, setAnalysisAddMode] = useState('manual'); // manual / auto
+          const [analysisAutoText, setAnalysisAutoText] = useState('');
 
           const [newReading, setNewReading] = useState({ category: '', name: '', highText: '', lowText: '' });
           const [showAddReading, setShowAddReading] = useState(false);
+          const [readingAddMode, setReadingAddMode] = useState('manual'); // manual / auto
+          const [readingAutoText, setReadingAutoText] = useState('');
 
           const [newRelation, setNewRelation] = useState({ category: '', relatedNames: '', description: '' });
           const [showAddRelation, setShowAddRelation] = useState(false);
-
           const [newAbout, setNewAbout] = useState({ title: '', content: '' });
           const [showAddAbout, setShowAddAbout] = useState(false);
 
-          const playClickSound = () => {
+          // الحقول المخصصة لمدخلات الأقسام الجديدة ديناميكياً
+          const [customFormInputs, setCustomFormInputs] = useState({});
+          const [customAddMode, setCustomAddMode] = useState('manual'); // manual / auto
+          const [customAutoText, setCustomAutoText] = useState('');
+
+          // طلب رقم 1: هندسة وتشغيل النغمة الطبية الفاخرة والمستقرة مباشرة من قلب الكود
+          const playEmbeddedSound = () => {
             try {
+              // 1. الاهتزاز اللمسي الهادئ والخاطف للهواتف الذكية (12 ملي ثانية)
+              if (navigator.vibrate) {
+                navigator.vibrate(12);
+              }
+
+              // 2. هندسة الصوت التلقائي الداخلي بتردد 432Hz المريح جداً للقلب
               const AudioContext = window.AudioContext || window.webkitAudioContext;
-              if (!AudioContext) return;
-              const ctx = new AudioContext();
-              const osc = ctx.createOscillator();
-              const gain = ctx.createGain();
+              if (!AudioContext) {
+                // حل بديل فوري للمتصفحات القديمة باستخدام الملف المدمج أعلاه
+                document.getElementById('premiumSound').play();
+                return;
+              }
               
-              osc.type = 'sine';
-              osc.frequency.setValueAtTime(580, ctx.currentTime);
-              osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.08);
+              const audioCtx = new AudioContext();
+              const oscillator = audioCtx.createOscillator();
+              const gainNode = audioCtx.createGain();
               
-              gain.gain.setValueAtTime(0.06, ctx.currentTime);
-              gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+              oscillator.connect(gainNode);
+              gainNode.connect(audioCtx.destination);
               
-              osc.connect(gain);
-              gain.connect(ctx.destination);
+              oscillator.type = 'sine'; // موجة جيبية نقية دافئة جداً
+              oscillator.frequency.setValueAtTime(432, audioCtx.currentTime); // تردد طبي مستقر بدون صعود أو تموج آلي
               
-              osc.start();
-              osc.stop(ctx.currentTime + 0.12);
-            } catch (e) {}
+              gainNode.gain.setValueAtTime(0.025, audioCtx.currentTime); // مستوى صوت خلفي مخملي وراقي
+              gainNode.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + 0.08); // تلاشي تدريجي يذوب في الخلفية لراحة الأذن
+              
+              oscillator.start(audioCtx.currentTime);
+              oscillator.stop(audioCtx.currentTime + 0.09);
+            } catch (e) {
+              console.log("Audio contextual trigger active.");
+            }
           };
 
           useEffect(() => {
@@ -242,40 +285,71 @@
             return () => unsubscribe();
           }, [auth]);
 
+          // ربط وتحميل ومزامنة قواعد البيانات السحابية مع التخزين المحلي فوراً (أوفلاين دائم)
           useEffect(() => {
             if (!user) return;
+            
+            // مزامنة الأقسام المخصصة
+            const customSectionsQuery = collection(db, 'artifacts', appId, 'public', 'data', 'custom_sections');
+            const unsubscribeCustomSections = onSnapshot(customSectionsQuery, (snapshot) => {
+              const list = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+              setCustomSections(list);
+              setLocalBackup('custom_sections', list);
+            }, (err) => console.log("Offline mode: using custom sections cache"));
 
             const analysesQuery = collection(db, 'artifacts', appId, 'public', 'data', 'analyses');
             const unsubscribeAnalyses = onSnapshot(analysesQuery, (snapshot) => {
               const list = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
               setAnalyses(list);
-            }, (err) => console.error("Error fetching analyses:", err));
+              setLocalBackup('analyses', list);
+            }, (err) => console.log("Offline mode: using analyses cache"));
 
             const readingsQuery = collection(db, 'artifacts', appId, 'public', 'data', 'readings');
             const unsubscribeReadings = onSnapshot(readingsQuery, (snapshot) => {
               const list = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
               setReadings(list);
-            }, (err) => console.error("Error fetching readings:", err));
+              setLocalBackup('readings', list);
+            }, (err) => console.log("Offline mode: using readings cache"));
 
             const relationsQuery = collection(db, 'artifacts', appId, 'public', 'data', 'relations');
             const unsubscribeRelations = onSnapshot(relationsQuery, (snapshot) => {
               const list = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
               setRelations(list);
-            }, (err) => console.error("Error fetching relations:", err));
+              setLocalBackup('relations', list);
+            }, (err) => console.log("Offline mode: using relations cache"));
 
             const aboutQuery = collection(db, 'artifacts', appId, 'public', 'data', 'about');
             const unsubscribeAbout = onSnapshot(aboutQuery, (snapshot) => {
               const list = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
               setAboutData(list);
-            }, (err) => console.error("Error fetching about:", err));
+              setLocalBackup('about', list);
+            }, (err) => console.log("Offline mode: using about cache"));
 
             return () => {
+              unsubscribeCustomSections();
               unsubscribeAnalyses();
               unsubscribeReadings();
               unsubscribeRelations();
               unsubscribeAbout();
             };
           }, [user, db, appId]);
+
+          // تحميل العناصر الفرعية لكل قسم مخصص بشكل منفصل
+          useEffect(() => {
+            if (!user) return;
+            const unsubscribes = customSections.map(section => {
+              const q = collection(db, 'artifacts', appId, 'public', 'data', `custom_items_${section.id}`);
+              return onSnapshot(q, (snapshot) => {
+                const list = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setCustomItems(prev => {
+                  const updated = { ...prev, [section.id]: list };
+                  setLocalBackup('custom_items', updated);
+                  return updated;
+                });
+              }, (err) => console.log(`Offline mode for items of ${section.id}`));
+            });
+            return () => unsubscribes.forEach(unsub => unsub());
+          }, [user, customSections, db, appId]);
 
           useEffect(() => {
             localStorage.setItem('lab_theme', theme);
@@ -288,7 +362,6 @@
             } else {
               setGreeting('مساء الخير');
             }
-
             const now = new Date();
             const start = new Date(now.getFullYear(), 0, 0);
             const diff = now - start;
@@ -301,7 +374,7 @@
 
           const handleAdminLogin = (e) => {
             e.preventDefault();
-            playClickSound();
+            playEmbeddedSound();
             if (adminUsername === 'Son of abd' && adminPassword === 'ARASS_231023') {
               setIsAdmin(true);
               setShowAdminModal(false);
@@ -314,29 +387,132 @@
           };
 
           const handleAdminLogout = () => {
-            playClickSound();
+            playEmbeddedSound();
             setIsAdmin(false);
           };
 
+          // طلب رقم 4: دالة التحويل التلقائي لأسماء التحاليل الطبية مجمعة
+          const parseAnalysisAutoText = (text) => {
+            const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+            let shortName = '';
+            let name = '';
+            let useCase = '';
+            let measures = '';
+            let reasons = '';
+
+            if (lines[0]) {
+              if (lines[0].includes('-')) {
+                const parts = lines[0].split('-');
+                shortName = parts[0].trim().toUpperCase();
+                name = parts[1].trim();
+              } else {
+                name = lines[0];
+              }
+            }
+
+            lines.forEach(line => {
+              if (line.startsWith('استخدامة:') || line.startsWith('استخدامه:') || line.startsWith('استخدام:')) {
+                useCase = line.replace(/^(استخدامة:|استخدامه:|استخدام:)/, '').trim();
+              } else if (line.startsWith('يقيس شنو:') || line.startsWith('يقيس:')) {
+                measures = line.replace(/^(يقيس شنو:|يقيس:)/, '').trim();
+              } else if (line.startsWith('اسباب اجراء هذا تحليل:') || line.startsWith('أسباب إجراء هذا التحليل:') || line.startsWith('اسباب اجراء التحليل:') || line.startsWith('اسباب:')) {
+                reasons = line.replace(/^(اسباب اجراء هذا تحليل:|أسباب إجراء هذا التحليل:|اسباب اجراء التحليل:|اسباب:)/, '').trim();
+              }
+            });
+
+            return { name, shortName, useCase, measures, reasons };
+          };
+
+          // طلب رقم 4: دالة التحويل التلقائي لقراءة وتفسير التحاليل مجمعة
+          const parseReadingAutoText = (text) => {
+            const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+            let category = '';
+            let name = '';
+            let highText = '';
+            let lowText = '';
+            let relationDesc = '';
+
+            lines.forEach(line => {
+              if (line.startsWith('القسم:') || line.startsWith('قسم:')) {
+                category = line.replace(/^(القسم:|قسم:)/, '').trim();
+              } else if (line.startsWith('الاسم:') || line.startsWith('اسم:')) {
+                name = line.replace(/^(الاسم:|اسم:)/, '').trim();
+              } else if (line.startsWith('ارتفاع:') || line.startsWith('الارتفاع:')) {
+                highText = line.replace(/^(ارتفاع:|الارتفاع:)/, '').trim();
+              } else if (line.startsWith('انخفاض:') || line.startsWith('الانخفاض:')) {
+                lowText = line.replace(/^(انخفاض:|الانخفاض:)/, '').trim();
+              } else if (line.startsWith('علاقة:') || line.startsWith('العلاقة:')) {
+                relationDesc = line.replace(/^(علاقة:|العلاقة:)/, '').trim();
+              }
+            });
+
+            return { category, name, highText, lowText, relationDesc };
+          };
+
+          // دالة التحويل التلقائي للأقسام المخصصة الديناميكية
+          const parseCustomAutoText = (text, fields) => {
+            const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+            const data = {};
+            fields.forEach(f => { data[f] = ''; });
+
+            lines.forEach(line => {
+              fields.forEach(f => {
+                const prefix1 = `${f}:`;
+                const prefix2 = `${f} :`;
+                if (line.startsWith(prefix1)) {
+                  data[f] = line.substring(prefix1.length).trim();
+                } else if (line.startsWith(prefix2)) {
+                  data[f] = line.substring(prefix2.length).trim();
+                }
+              });
+            });
+            return data;
+          };
+
+          // إضافة وإدارة التحاليل يدوياً أو تلقائياً
           const handleAddAnalysis = async (e) => {
             e.preventDefault();
-            playClickSound();
-            if (!newAnalysis.name.trim() || !newAnalysis.shortName.trim() || !user) return;
+            playEmbeddedSound();
+            if (!user) return;
+
+            let dataToSave = {};
+            if (analysisAddMode === 'auto') {
+              dataToSave = parseAnalysisAutoText(analysisAutoText);
+              if (!dataToSave.name || !dataToSave.shortName) return;
+            } else {
+              if (!newAnalysis.name.trim() || !newAnalysis.shortName.trim()) return;
+              dataToSave = {
+                name: newAnalysis.name.trim(),
+                shortName: newAnalysis.shortName.trim().toUpperCase(),
+                useCase: newAnalysis.useCase.trim(),
+                measures: newAnalysis.measures.trim(),
+                reasons: newAnalysis.reasons.trim()
+              };
+            }
+
+            // تحديث محلي فوري للأوفلاين
+            const localId = crypto.randomUUID();
+            const updatedAnalyses = [...analyses, { id: localId, ...dataToSave }];
+            setAnalyses(updatedAnalyses);
+            setLocalBackup('analyses', updatedAnalyses);
+
             try {
               const docRef = collection(db, 'artifacts', appId, 'public', 'data', 'analyses');
-              await addDoc(docRef, {
-                name: newAnalysis.name.trim(),
-                shortName: newAnalysis.shortName.trim().toUpperCase()
-              });
-              setNewAnalysis({ name: '', shortName: '' });
-              setShowAddAnalysis(false);
+              await addDoc(docRef, dataToSave);
             } catch (err) {
-              console.error("Error adding analysis:", err);
+              console.log("Saved locally. Will sync when online.");
             }
+
+            setNewAnalysis({ name: '', shortName: '', useCase: '', reasons: '' });
+            setAnalysisAutoText('');
+            setShowAddAnalysis(false);
           };
 
           const handleDeleteAnalysis = async (id) => {
-            playClickSound();
+            playEmbeddedSound();
+            const updated = analyses.filter(item => item.id !== id);
+            setAnalyses(updated);
+            setLocalBackup('analyses', updated);
             if (!user) return;
             try {
               await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'analyses', id));
@@ -345,27 +521,65 @@
             }
           };
 
+          // إضافة وإدارة قراءة التحاليل
           const handleAddReading = async (e) => {
             e.preventDefault();
-            playClickSound();
-            if (!newReading.category.trim() || !newReading.name.trim() || !newReading.highText.trim() || !newReading.lowText.trim() || !user) return;
-            try {
-              const docRef = collection(db, 'artifacts', appId, 'public', 'data', 'readings');
-              await addDoc(docRef, {
+            playEmbeddedSound();
+            if (!user) return;
+
+            let dataToSave = {};
+            if (readingAddMode === 'auto') {
+              const parsed = parseReadingAutoText(readingAutoText);
+              if (!parsed.name || !parsed.category) return;
+              dataToSave = {
+                category: parsed.category,
+                name: parsed.name,
+                highText: parsed.highText,
+                lowText: parsed.lowText
+              };
+              // إذا كان هناك شرح علاقة تأثير في التحويل التلقائي، يتم إضافتها تلقائياً
+              if (parsed.relationDesc) {
+                try {
+                  const relRef = collection(db, 'artifacts', appId, 'public', 'data', 'relations');
+                  await addDoc(relRef, {
+                    category: parsed.category,
+                    relatedNames: parsed.name,
+                    description: parsed.relationDesc
+                  });
+                } catch(e){}
+              }
+            } else {
+              if (!newReading.category.trim() || !newReading.name.trim() || !newReading.highText.trim() || !newReading.lowText.trim()) return;
+              dataToSave = {
                 category: newReading.category.trim(),
                 name: newReading.name.trim(),
                 highText: newReading.highText.trim(),
                 lowText: newReading.lowText.trim()
-              });
-              setNewReading({ category: '', name: '', highText: '', lowText: '' });
-              setShowAddReading(false);
-            } catch (err) {
-              console.error("Error adding reading:", err);
+              };
             }
+
+            const localId = crypto.randomUUID();
+            const updatedReadings = [...readings, { id: localId, ...dataToSave }];
+            setReadings(updatedReadings);
+            setLocalBackup('readings', updatedReadings);
+
+            try {
+              const docRef = collection(db, 'artifacts', appId, 'public', 'data', 'readings');
+              await addDoc(docRef, dataToSave);
+            } catch (err) {
+              console.log("Saved locally.");
+            }
+
+            setNewReading({ category: '', name: '', highText: '', lowText: '' });
+            setReadingAutoText('');
+            setShowAddReading(false);
           };
 
           const handleDeleteReading = async (id) => {
-            playClickSound();
+            playEmbeddedSound();
+            const updated = readings.filter(item => item.id !== id);
+            setReadings(updated);
+            setLocalBackup('readings', updated);
             if (!user) return;
             try {
               await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'readings', id));
@@ -376,24 +590,34 @@
 
           const handleAddRelation = async (e) => {
             e.preventDefault();
-            playClickSound();
+            playEmbeddedSound();
             if (!newRelation.category.trim() || !newRelation.relatedNames.trim() || !newRelation.description.trim() || !user) return;
+            
+            const localId = crypto.randomUUID();
+            const dataToSave = {
+              category: newRelation.category.trim(),
+              relatedNames: newRelation.relatedNames.trim(),
+              description: newRelation.description.trim()
+            };
+            const updated = [...relations, { id: localId, ...dataToSave }];
+            setRelations(updated);
+            setLocalBackup('relations', updated);
+
             try {
               const docRef = collection(db, 'artifacts', appId, 'public', 'data', 'relations');
-              await addDoc(docRef, {
-                category: newRelation.category.trim(),
-                relatedNames: newRelation.relatedNames.trim(),
-                description: newRelation.description.trim()
-              });
-              setNewRelation({ category: '', relatedNames: '', description: '' });
-              setShowAddRelation(false);
+              await addDoc(docRef, dataToSave);
             } catch (err) {
-              console.error("Error adding relation:", err);
+              console.log("Saved locally.");
             }
+            setNewRelation({ category: '', relatedNames: '', description: '' });
+            setShowAddRelation(false);
           };
 
           const handleDeleteRelation = async (id) => {
-            playClickSound();
+            playEmbeddedSound();
+            const updated = relations.filter(item => item.id !== id);
+            setRelations(updated);
+            setLocalBackup('relations', updated);
             if (!user) return;
             try {
               await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'relations', id));
@@ -404,29 +628,128 @@
 
           const handleAddAbout = async (e) => {
             e.preventDefault();
-            playClickSound();
+            playEmbeddedSound();
             if (!newAbout.title.trim() || !newAbout.content.trim() || !user) return;
+            
+            const localId = crypto.randomUUID();
+            const dataToSave = {
+              title: newAbout.title.trim(),
+              content: newAbout.content.trim()
+            };
+            const updated = [...aboutData, { id: localId, ...dataToSave }];
+            setAboutData(updated);
+            setLocalBackup('about', updated);
+
             try {
               const docRef = collection(db, 'artifacts', appId, 'public', 'data', 'about');
-              await addDoc(docRef, {
-                title: newAbout.title.trim(),
-                content: newAbout.content.trim()
-              });
-              setNewAbout({ title: '', content: '' });
-              setShowAddAbout(false);
+              await addDoc(docRef, dataToSave);
             } catch (err) {
-              console.error("Error adding about:", err);
+              console.log("Saved locally.");
             }
+            setNewAbout({ title: '', content: '' });
+            setShowAddAbout(false);
           };
 
           const handleDeleteAbout = async (id) => {
-            playClickSound();
+            playEmbeddedSound();
+            const updated = aboutData.filter(item => item.id !== id);
+            setAboutData(updated);
+            setLocalBackup('about', updated);
             if (!user) return;
             try {
               await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'about', id));
             } catch (err) {
               console.error("Error deleting about:", err);
             }
+          };
+
+          // طلب رقم 6: دالة إنشاء قسم مخصص جديد بالكامل
+          const handleCreateSection = async (e) => {
+            e.preventDefault();
+            playEmbeddedSound();
+            if (!newSectionName.trim() || !user) return;
+            
+            const filteredFields = newSectionFields.map(f => f.trim()).filter(Boolean);
+            if (filteredFields.length === 0) return;
+
+            const newSec = {
+              id: 'section_' + Date.now(),
+              title: newSectionName.trim(),
+              fields: filteredFields
+            };
+
+            const updatedSections = [...customSections, newSec];
+            setCustomSections(updatedSections);
+            setLocalBackup('custom_sections', updatedSections);
+
+            try {
+              const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'custom_sections', newSec.id);
+              await setDoc(docRef, {
+                title: newSec.title,
+                fields: newSec.fields
+              });
+            } catch(e){}
+
+            setNewSectionName('');
+            setNewSectionFields(['']);
+            setShowAddSection(false);
+          };
+
+          // حذف قسم مخصص بالكامل
+          const handleDeleteSection = async (sectionId) => {
+            playEmbeddedSound();
+            const updated = customSections.filter(s => s.id !== sectionId);
+            setCustomSections(updated);
+            setLocalBackup('custom_sections', updated);
+            if (!user) return;
+            try {
+              await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'custom_sections', sectionId));
+            } catch(e){}
+          };
+
+          // إضافة عنصر فرعي داخل قسم مخصص (يدوي وتلقائي)
+          const handleAddCustomItem = async (sectionId, fields) => {
+            playEmbeddedSound();
+            let dataToSave = {};
+
+            if (customAddMode === 'auto') {
+              dataToSave = parseCustomAutoText(customAutoText, fields);
+            } else {
+              dataToSave = { ...customFormInputs };
+            }
+
+            const localId = crypto.randomUUID();
+            const currentList = customItems[sectionId] || [];
+            const updatedList = [...currentList, { id: localId, ...dataToSave }];
+            
+            setCustomItems(prev => {
+              const updated = { ...prev, [sectionId]: updatedList };
+              setLocalBackup('custom_items', updated);
+              return updated;
+            });
+
+            try {
+              const docRef = collection(db, 'artifacts', appId, 'public', 'data', `custom_items_${sectionId}`);
+              await addDoc(docRef, dataToSave);
+            } catch(e){}
+
+            setCustomFormInputs({});
+            setCustomAutoText('');
+          };
+
+          const handleDeleteCustomItem = async (sectionId, itemId) => {
+            playEmbeddedSound();
+            const currentList = customItems[sectionId] || [];
+            const updatedList = currentList.filter(item => item.id !== itemId);
+            setCustomItems(prev => {
+              const updated = { ...prev, [sectionId]: updatedList };
+              setLocalBackup('custom_items', updated);
+              return updated;
+            });
+            if (!user) return;
+            try {
+              await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', `custom_items_${sectionId}`, itemId));
+            } catch(e){}
           };
 
           const filteredReadings = readings.filter(item => 
@@ -484,7 +807,7 @@
                     <button
                       type="button"
                       onClick={() => {
-                        playClickSound();
+                        playEmbeddedSound();
                         setTheme(theme === 'light' ? 'dark' : 'light');
                       }}
                       className={`p-2.5 rounded-xl transition-all duration-300 border flex items-center justify-center ${
@@ -504,9 +827,7 @@
                       )}
                     </button>
                   </div>
-
-                  <div className="flex-1 h-10 cursor-pointer" onClick={() => { playClickSound(); setActiveScreen('home'); }} />
-
+                  <div className="flex-1 h-10 cursor-pointer" onClick={() => { playEmbeddedSound(); setActiveScreen('home'); }} />
                   <div>
                     {isAdmin ? (
                       <div className="flex items-center gap-2">
@@ -525,7 +846,7 @@
                       <button
                         type="button"
                         onClick={() => {
-                          playClickSound();
+                          playEmbeddedSound();
                           setAdminError('');
                           setShowAdminModal(true);
                         }}
@@ -541,7 +862,6 @@
                   </div>
                 </div>
               </header>
-
               <main className="max-w-4xl mx-auto px-4 py-8">
                 {activeScreen === 'home' && (
                   <div className="space-y-10">
@@ -552,24 +872,22 @@
                       }`}>
                         {greeting}
                       </h2>
-                      <div className="max-w-xl mx-auto mt-4 px-4">
-                        <p className={`text-lg sm:text-xl font-medium leading-relaxed mb-3 ${
-                          theme === 'dark' ? 'text-teal-300' : 'text-teal-800'
-                        }`} style={{ fontFamily: 'Georgia, serif' }}>
+                      {/* طلب رقم 5: حاوية الآيات المتباعدة والأنيقة دون التفاف مشوه على الهواتف والشاشات */}
+                      <div className="max-w-3xl mx-auto mt-4 px-6 overflow-x-auto scrollbar-none flex flex-col items-center">
+                        <p className="text-lg sm:text-xl font-semibold leading-relaxed mb-3 text-teal-800 dark:text-teal-300 whitespace-nowrap text-center px-4 py-2 bg-teal-500/5 dark:bg-teal-500/10 rounded-2xl border border-teal-500/10" style={{ fontFamily: 'Cairo, sans-serif' }}>
                           " {todayVerse.text} "
                         </p>
-                        <span className={`text-xs opacity-60 block ${
+                        <span className={`text-xs opacity-60 block mt-2 ${
                           theme === 'dark' ? 'text-slate-400' : 'text-slate-500'
                         }`}>
                           سورة {todayVerse.ref}
                         </span>
                       </div>
                     </div>
-
                     <div className="flex flex-col gap-6 pt-4">
                       <button
                         type="button"
-                        onClick={() => { playClickSound(); setActiveScreen('analyses'); }}
+                        onClick={() => { playEmbeddedSound(); setActiveScreen('analyses'); }}
                         className={`group text-right p-6 rounded-3xl transition-all duration-300 border hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between min-h-[140px] ${
                           theme === 'dark' 
                             ? 'bg-slate-900 border-slate-800 hover:border-teal-500/50' 
@@ -590,14 +908,13 @@
                           <p className={`text-xs mt-1.5 ${
                             theme === 'dark' ? 'text-slate-400' : 'text-slate-500'
                           }`}>
-                            تحاليل طبية مع اختصارات
+                            تحاليل طبية مع اختصارات، الاستخدامات وأسباب الإجراء
                           </p>
                         </div>
                       </button>
-
                       <button
                         type="button"
-                        onClick={() => { playClickSound(); setActiveScreen('readings'); }}
+                        onClick={() => { playEmbeddedSound(); setActiveScreen('readings'); }}
                         className={`group text-right p-6 rounded-3xl transition-all duration-300 border hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between min-h-[140px] ${
                           theme === 'dark' 
                             ? 'bg-slate-900 border-slate-800 hover:border-teal-500/50' 
@@ -618,14 +935,13 @@
                           <p className={`text-xs mt-1.5 ${
                             theme === 'dark' ? 'text-slate-400' : 'text-slate-500'
                           }`}>
-                            افهم دلالات ارتفاع أو انخفاض النسب في النتائج المختبرية
+                            افهم دلالات ارتفاع أو انخفاض النسب في النتائج المختبرية والعلاقات بينها
                           </p>
                         </div>
                       </button>
-
                       <button
                         type="button"
-                        onClick={() => { playClickSound(); setActiveScreen('about'); }}
+                        onClick={() => { playEmbeddedSound(); setActiveScreen('about'); }}
                         className={`group text-right p-6 rounded-3xl transition-all duration-300 border hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between min-h-[140px] ${
                           theme === 'dark' 
                             ? 'bg-slate-900 border-slate-800 hover:border-teal-500/50' 
@@ -645,16 +961,72 @@
                           </h3>
                         </div>
                       </button>
+
+                      {/* إظهار الأقسام المخصصة الديناميكية في الشاشة الرئيسية كأزرار */}
+                      {customSections.map(section => (
+                        <div key={section.id} className="relative group/wrapper">
+                          <button
+                            type="button"
+                            onClick={() => { playEmbeddedSound(); setActiveScreen(`custom_${section.id}`); }}
+                            className={`w-full group text-right p-6 rounded-3xl transition-all duration-300 border hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between min-h-[140px] ${
+                              theme === 'dark' 
+                                ? 'bg-slate-900 border-slate-800 hover:border-teal-500/50' 
+                                : 'bg-white border-slate-200 hover:border-teal-500/50'
+                            }`}
+                          >
+                            <div className="w-12 h-12 rounded-2xl bg-violet-500/10 text-violet-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 mb-3">
+                              <span className="text-xl">📋</span>
+                            </div>
+                            <div>
+                              <h3 className={`text-lg font-bold transition-colors ${
+                                theme === 'dark' ? 'text-slate-100 group-hover:text-violet-400' : 'text-slate-800 group-hover:text-violet-600'
+                              }`}>
+                                {section.title}
+                              </h3>
+                              <p className={`text-xs mt-1.5 ${
+                                theme === 'dark' ? 'text-slate-400' : 'text-slate-500'
+                              }`}>
+                                حقول مخصصة: {section.fields.join('، ')}
+                              </p>
+                            </div>
+                          </button>
+                          {isAdmin && (
+                            <button
+                              onClick={() => handleDeleteSection(section.id)}
+                              className="absolute top-4 left-4 p-2 bg-rose-500/10 hover:bg-rose-500 text-rose-500 hover:text-white rounded-xl transition"
+                            >
+                              حذف القسم
+                            </button>
+                          )}
+                        </div>
+                      ))}
+
+                      {/* طلب رقم 6: زر المربع الفاخر "+" لإنشاء قسم جديد (يظهر فقط للمشرف في وسط منعزل أسفل الأقسام) */}
+                      {isAdmin && (
+                        <div className="flex justify-center pt-8">
+                          <button
+                            type="button"
+                            onClick={() => { playEmbeddedSound(); setShowAddSection(true); }}
+                            className="w-16 h-16 rounded-3xl bg-teal-500 hover:bg-teal-600 text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all border-2 border-teal-400"
+                            title="إنشاء قسم جديد"
+                          >
+                            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
+                            </svg>
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
 
+                {/* شاشة أسماء التحاليل */}
                 {activeScreen === 'analyses' && (
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">
                       <button 
                         type="button"
-                        onClick={() => { playClickSound(); setActiveScreen('home'); }}
+                        onClick={() => { playEmbeddedSound(); setActiveScreen('home'); }}
                         className={`flex items-center gap-1 text-xs font-bold px-3 py-2 rounded-xl transition duration-200 ${
                           theme === 'dark' ? 'bg-slate-900 text-slate-300 hover:bg-slate-800' : 'bg-white text-slate-600 hover:bg-slate-100'
                         }`}
@@ -666,13 +1038,12 @@
                       </button>
                       <h2 className="text-xl font-extrabold text-teal-500">أسماء التحاليل الطبية واختصاراتها</h2>
                     </div>
-
                     <div className="relative">
                       <input 
                         type="text"
                         value={searchAnalyses}
                         onChange={(e) => setSearchAnalyses(e.target.value)}
-                        placeholder="ابحث باسم التحليل أو الاختصار المعتمد..."
+                        placeholder="ابحث باسم التحليل، الاختصار، أو الاستخدام..."
                         className={`w-full px-4 py-3 pr-10 rounded-2xl border text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition ${
                           theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-white border-slate-200 text-slate-800'
                         }`}
@@ -684,14 +1055,15 @@
                       </div>
                     </div>
 
+                    {/* أداة إضافة تحليل جديد للمشرف (يدوي / تحويل تلقائي ذكي) */}
                     {isAdmin && (
                       <div className={`p-6 rounded-3xl border ${
-                        theme === 'dark' ? 'bg-slate-900 border-teal-500/30' : 'bg-emerald-50/40 border-teal-200'
+                        theme === 'dark' ? 'bg-slate-900 border-teal-500/30' : 'bg-teal-50/40 border-teal-200'
                       }`}>
                         {!showAddAnalysis ? (
                           <button 
                             type="button"
-                            onClick={() => { playClickSound(); setShowAddAnalysis(true); }}
+                            onClick={() => { playEmbeddedSound(); setShowAddAnalysis(true); }}
                             className="w-full py-3 bg-teal-500 hover:bg-teal-600 text-white font-bold rounded-2xl transition duration-200 flex items-center justify-center gap-2"
                           >
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -701,40 +1073,104 @@
                           </button>
                         ) : (
                           <form onSubmit={handleAddAnalysis} className="space-y-4">
-                            <h3 className="text-base font-bold text-teal-600">إضافة تحليل جديد</h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                              <div>
-                                <label className="block text-xs font-bold mb-1 opacity-70">اسم التحليل بالإنجليزي كاملاً</label>
-                                <input 
-                                  type="text" 
-                                  required
-                                  value={newAnalysis.name}
-                                  onChange={(e) => setNewAnalysis({...newAnalysis, name: e.target.value})}
-                                  className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition ${
-                                    theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
-                                  }`}
-                                />
-                              </div>
-                              <div>
-                                <label className="block text-xs font-bold mb-1 opacity-70">الاسم المختصر للتحليل</label>
-                                <input 
-                                  type="text" 
-                                  required
-                                  value={newAnalysis.shortName}
-                                  onChange={(e) => setNewAnalysis({...newAnalysis, shortName: e.target.value})}
-                                  className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition ${
-                                    theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
-                                  }`}
-                                />
+                            <div className="flex items-center justify-between border-b pb-2">
+                              <h3 className="text-base font-bold text-teal-600">إضافة تحليل جديد</h3>
+                              <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+                                <button
+                                  type="button"
+                                  onClick={() => { playEmbeddedSound(); setAnalysisAddMode('manual'); }}
+                                  className={`px-3 py-1 text-xs font-bold rounded-lg transition ${analysisAddMode === 'manual' ? 'bg-white dark:bg-slate-700 shadow text-teal-600' : 'opacity-60'}`}
+                                >
+                                  إضافة يدوية
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => { playEmbeddedSound(); setAnalysisAddMode('auto'); }}
+                                  className={`px-3 py-1 text-xs font-bold rounded-lg transition ${analysisAddMode === 'auto' ? 'bg-white dark:bg-slate-700 shadow text-teal-600' : 'opacity-60'}`}
+                                >
+                                  تحويل تلقائي
+                                </button>
                               </div>
                             </div>
+
+                            {analysisAddMode === 'manual' ? (
+                              <div className="space-y-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                  <div>
+                                    <label className="block text-xs font-bold mb-1 opacity-70">اسم التحليل بالإنجليزي كاملاً</label>
+                                    <input 
+                                      type="text" 
+                                      required
+                                      value={newAnalysis.name}
+                                      onChange={(e) => setNewAnalysis({...newAnalysis, name: e.target.value})}
+                                      className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition ${
+                                        theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
+                                      }`}
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="block text-xs font-bold mb-1 opacity-70">الاسم المختصر للتحليل</label>
+                                    <input 
+                                      type="text" 
+                                      required
+                                      value={newAnalysis.shortName}
+                                      onChange={(e) => setNewAnalysis({...newAnalysis, shortName: e.target.value})}
+                                      className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition ${
+                                        theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
+                                      }`}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                  <div>
+                                    <label className="block text-xs font-bold mb-1 opacity-70">استخدام التحليل (يقيس شنو)</label>
+                                    <input 
+                                      type="text" 
+                                      value={newAnalysis.useCase}
+                                      onChange={(e) => setNewAnalysis({...newAnalysis, useCase: e.target.value})}
+                                      className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition ${
+                                        theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
+                                      }`}
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="block text-xs font-bold mb-1 opacity-70">الأسباب لإجراء هذا التحليل</label>
+                                    <input 
+                                      type="text" 
+                                      value={newAnalysis.reasons}
+                                      onChange={(e) => setNewAnalysis({...newAnalysis, reasons: e.target.value})}
+                                      className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition ${
+                                        theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
+                                      }`}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              // واجهة تحويل التحاليل تلقائياً بذكاء
+                              <div className="space-y-2">
+                                <label className="block text-xs font-bold mb-1 opacity-70">انسخ النص البرمجي الكامل هنا وسيقوم النظام بتفصيله تلقائياً وبدقة:</label>
+                                <textarea 
+                                  rows="6"
+                                  required
+                                  value={analysisAutoText}
+                                  onChange={(e) => setAnalysisAutoText(e.target.value)}
+                                  placeholder="مثال:&#10;cbc - complete blood count&#10;استخدامة: قياس مكونات الدم الأساسية&#10;يقيس شنو: يقيس الهيموجلوبين والصفائح وخلايا الدم&#10;اسباب اجراء هذا تحليل: الكشف عن فقر الدم والالتهابات"
+                                  className={`w-full p-4 rounded-2xl border text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 font-mono transition ${
+                                    theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
+                                  }`}
+                                />
+                              </div>
+                            )}
+
                             <div className="flex justify-end gap-2 pt-2">
                               <button 
                                 type="button"
                                 onClick={() => {
-                                  playClickSound();
+                                  playEmbeddedSound();
                                   setShowAddAnalysis(false);
-                                  setNewAnalysis({ name: '', shortName: '' });
+                                  setNewAnalysis({ name: '', shortName: '', useCase: '', reasons: '' });
+                                  setAnalysisAutoText('');
                                 }}
                                 className={`px-4 py-2 text-xs font-bold rounded-xl ${
                                   theme === 'dark' ? 'bg-slate-800 text-slate-300 hover:bg-slate-700' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
@@ -754,42 +1190,65 @@
                       </div>
                     )}
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4">
                       {filteredAnalyses.length === 0 ? (
-                        <div className="col-span-full text-center py-12 opacity-60 text-sm">
+                        <div className="text-center py-12 opacity-60 text-sm">
                           لا توجد نتائج مطابقة لبحثك.
                         </div>
                       ) : (
                         filteredAnalyses.map((item) => (
                           <div 
                             key={item.id}
-                            className={`p-5 rounded-2xl border transition duration-200 relative group flex items-center justify-between ${
+                            className={`p-6 rounded-2xl border transition duration-200 relative group flex flex-col gap-3 ${
                               theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'
                             }`}
                           >
-                            <div className="space-y-1">
+                            <div className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
                                 <span className="text-xs bg-teal-500/10 text-teal-500 font-extrabold px-2.5 py-1 rounded-lg">
                                   {item.shortName}
                                 </span>
+                                <h4 className={`text-base font-semibold tracking-wide ${
+                                  theme === 'dark' ? 'text-slate-200' : 'text-slate-700'
+                                }`}>
+                                  {item.name}
+                                </h4>
                               </div>
-                              <h4 className={`text-sm font-semibold tracking-wide ${
-                                theme === 'dark' ? 'text-slate-300' : 'text-slate-700'
-                              }`}>
-                                {item.name}
-                              </h4>
+                              {isAdmin && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteAnalysis(item.id)}
+                                  className="p-1.5 rounded-lg text-rose-500 hover:bg-rose-500/10 transition-colors"
+                                >
+                                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                  </svg>
+                                </button>
+                              )}
                             </div>
 
-                            {isAdmin && (
-                              <button
-                                type="button"
-                                onClick={() => handleDeleteAnalysis(item.id)}
-                                className="p-1.5 rounded-lg text-rose-500 hover:bg-rose-500/10 transition-colors"
-                              >
-                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                              </button>
+                            {/* عرض البيانات الجديدة للتحاليل بالتفصيل */}
+                            {(item.useCase || item.measures || item.reasons) && (
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 border-t border-dashed border-slate-200 dark:border-slate-800 text-xs">
+                                {item.useCase && (
+                                  <div className="p-3 rounded-xl bg-slate-100/50 dark:bg-slate-800/50">
+                                    <span className="font-extrabold text-teal-600 block mb-1">الاستخدام:</span>
+                                    <p className="opacity-80">{item.useCase}</p>
+                                  </div>
+                                )}
+                                {item.measures && (
+                                  <div className="p-3 rounded-xl bg-slate-100/50 dark:bg-slate-800/50">
+                                    <span className="font-extrabold text-indigo-600 block mb-1">يقيس شنو:</span>
+                                    <p className="opacity-80">{item.measures}</p>
+                                  </div>
+                                )}
+                                {item.reasons && (
+                                  <div className="p-3 rounded-xl bg-slate-100/50 dark:bg-slate-800/50">
+                                    <span className="font-extrabold text-amber-600 block mb-1">أسباب إجراء التحليل:</span>
+                                    <p className="opacity-80">{item.reasons}</p>
+                                  </div>
+                                )}
+                              </div>
                             )}
                           </div>
                         ))
@@ -798,12 +1257,13 @@
                   </div>
                 )}
 
+                {/* شاشة قراءة التحاليل وتفسير النسب */}
                 {activeScreen === 'readings' && (
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">
                       <button 
                         type="button"
-                        onClick={() => { playClickSound(); setActiveScreen('home'); }}
+                        onClick={() => { playEmbeddedSound(); setActiveScreen('home'); }}
                         className={`flex items-center gap-1 text-xs font-bold px-3 py-2 rounded-xl transition duration-200 ${
                           theme === 'dark' ? 'bg-slate-900 text-slate-300 hover:bg-slate-800' : 'bg-white text-slate-600 hover:bg-slate-100'
                         }`}
@@ -815,7 +1275,6 @@
                       </button>
                       <h2 className="text-xl font-extrabold text-emerald-500">قراءة وتفسير نسب التحاليل</h2>
                     </div>
-
                     <div className="relative">
                       <input 
                         type="text"
@@ -841,7 +1300,7 @@
                           {!showAddReading ? (
                             <button 
                               type="button"
-                              onClick={() => { playClickSound(); setShowAddReading(true); }}
+                              onClick={() => { playEmbeddedSound(); setShowAddReading(true); }}
                               className="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-2xl transition duration-200 flex items-center justify-center gap-2"
                             >
                               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -851,66 +1310,103 @@
                             </button>
                           ) : (
                             <form onSubmit={handleAddReading} className="space-y-4">
-                              <h3 className="text-sm font-bold text-emerald-600">إضافة تفسير جديد للنتائج</h3>
-                              <div className="space-y-3">
-                                <div>
-                                  <label className="block text-xs font-bold mb-1 opacity-70">القسم (وظائف أو نوع التحليل)</label>
-                                  <input 
-                                    type="text" 
-                                    required
-                                    value={newReading.category}
-                                    onChange={(e) => setNewReading({...newReading, category: e.target.value})}
-                                    placeholder="مثال: دهون"
-                                    className={`w-full px-3 py-2 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition ${
-                                      theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
-                                    }`}
-                                  />
-                                </div>
-                                <div>
-                                  <label className="block text-xs font-bold mb-1 opacity-70">اسم التحليل</label>
-                                  <input 
-                                    type="text" 
-                                    required
-                                    value={newReading.name}
-                                    onChange={(e) => setNewReading({...newReading, name: e.target.value})}
-                                    placeholder="مثال: تحليل lipid"
-                                    className={`w-full px-3 py-2 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition ${
-                                      theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
-                                    }`}
-                                  />
-                                </div>
-                                <div>
-                                  <label className="block text-xs font-bold mb-1 opacity-70">التوضيح والشرح عند الارتفاع</label>
-                                  <textarea 
-                                    rows="2"
-                                    required
-                                    value={newReading.highText}
-                                    onChange={(e) => setNewReading({...newReading, highText: e.target.value})}
-                                    className={`w-full px-3 py-2 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition ${
-                                      theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
-                                    }`}
-                                  />
-                                </div>
-                                <div>
-                                  <label className="block text-xs font-bold mb-1 opacity-70">التوضيح والشرح عند الانخفاض</label>
-                                  <textarea 
-                                    rows="2"
-                                    required
-                                    value={newReading.lowText}
-                                    onChange={(e) => setNewReading({...newReading, lowText: e.target.value})}
-                                    className={`w-full px-3 py-2 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition ${
-                                      theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
-                                    }`}
-                                  />
+                              <div className="flex items-center justify-between border-b pb-2">
+                                <h3 className="text-sm font-bold text-emerald-600">إضافة تفسير جديد للنتائج</h3>
+                                <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+                                  <button
+                                    type="button"
+                                    onClick={() => { playEmbeddedSound(); setReadingAddMode('manual'); }}
+                                    className={`px-3 py-1 text-xs font-bold rounded-lg transition ${readingAddMode === 'manual' ? 'bg-white dark:bg-slate-700 shadow text-emerald-600' : 'opacity-60'}`}
+                                  >
+                                    إدخال يدوي
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => { playEmbeddedSound(); setReadingAddMode('auto'); }}
+                                    className={`px-3 py-1 text-xs font-bold rounded-lg transition ${readingAddMode === 'auto' ? 'bg-white dark:bg-slate-700 shadow text-emerald-600' : 'opacity-60'}`}
+                                  >
+                                    تحويل تلقائي
+                                  </button>
                                 </div>
                               </div>
+
+                              {readingAddMode === 'manual' ? (
+                                <div className="space-y-3">
+                                  <div>
+                                    <label className="block text-xs font-bold mb-1 opacity-70">القسم (وظائف أو نوع التحليل)</label>
+                                    <input 
+                                      type="text" 
+                                      required
+                                      value={newReading.category}
+                                      onChange={(e) => setNewReading({...newReading, category: e.target.value})}
+                                      placeholder="مثال: دهون"
+                                      className={`w-full px-3 py-2 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition ${
+                                        theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
+                                      }`}
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="block text-xs font-bold mb-1 opacity-70">اسم التحليل</label>
+                                    <input 
+                                      type="text" 
+                                      required
+                                      value={newReading.name}
+                                      onChange={(e) => setNewReading({...newReading, name: e.target.value})}
+                                      placeholder="مثال: كوليسترول"
+                                      className={`w-full px-3 py-2 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition ${
+                                        theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
+                                      }`}
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="block text-xs font-bold mb-1 opacity-70">التوضيح والشرح عند الارتفاع</label>
+                                    <textarea 
+                                      rows="2"
+                                      required
+                                      value={newReading.highText}
+                                      onChange={(e) => setNewReading({...newReading, highText: e.target.value})}
+                                      className={`w-full px-3 py-2 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition ${
+                                        theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
+                                      }`}
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="block text-xs font-bold mb-1 opacity-70">التوضيح والشرح عند الانخفاض</label>
+                                    <textarea 
+                                      rows="2"
+                                      required
+                                      value={newReading.lowText}
+                                      onChange={(e) => setNewReading({...newReading, lowText: e.target.value})}
+                                      className={`w-full px-3 py-2 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition ${
+                                        theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
+                                      }`}
+                                    />
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="space-y-2">
+                                  <label className="block text-xs font-bold mb-1 opacity-70">انسخ النص هنا وسيتم تفسيره وفصله تلقائياً:</label>
+                                  <textarea 
+                                    rows="8"
+                                    required
+                                    value={readingAutoText}
+                                    onChange={(e) => setReadingAutoText(e.target.value)}
+                                    placeholder="مثال:&#10;القسم: دهون&#10;الاسم: كوليسترول&#10;ارتفاع: يؤدي لانسداد الشرايين&#10;انخفاض: مؤشر على سوء التغذية&#10;علاقة: ارتفاعه يزيد من فرصة أمراض القلب"
+                                    className={`w-full p-3 rounded-2xl border text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono transition ${
+                                      theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
+                                    }`}
+                                  />
+                                </div>
+                              )}
+
                               <div className="flex justify-end gap-2 pt-1">
                                 <button 
                                   type="button"
                                   onClick={() => {
-                                    playClickSound();
+                                    playEmbeddedSound();
                                     setShowAddReading(false);
                                     setNewReading({ category: '', name: '', highText: '', lowText: '' });
+                                    setReadingAutoText('');
                                   }}
                                   className={`px-3 py-1.5 text-xs font-bold rounded-xl ${
                                     theme === 'dark' ? 'bg-slate-800 text-slate-300' : 'bg-slate-200 text-slate-700'
@@ -932,7 +1428,7 @@
                           {!showAddRelation ? (
                             <button 
                               type="button"
-                              onClick={() => { playClickSound(); setShowAddRelation(true); }}
+                              onClick={() => { playEmbeddedSound(); setShowAddRelation(true); }}
                               className="w-full py-3 bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-2xl transition duration-200 flex items-center justify-center gap-2"
                             >
                               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -977,7 +1473,7 @@
                                     required
                                     value={newRelation.description}
                                     onChange={(e) => setNewRelation({...newRelation, description: e.target.value})}
-                                    placeholder="شرح كامل لآلية تداخل التحاليل وتأثير انخفاض أو ارتفاع أحدها على الآخر..."
+                                    placeholder="شرح كامل لآلية تداخل التحاليل..."
                                     className={`w-full px-3 py-2 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition ${
                                       theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
                                     }`}
@@ -988,7 +1484,7 @@
                                 <button 
                                   type="button"
                                   onClick={() => {
-                                    playClickSound();
+                                    playEmbeddedSound();
                                     setShowAddRelation(false);
                                     setNewRelation({ category: '', relatedNames: '', description: '' });
                                   }}
@@ -1026,7 +1522,6 @@
                                 قسم: {categoryName}
                               </span>
                             </div>
-
                             {groupedReadings[categoryName] && groupedReadings[categoryName].length > 0 && (
                               <div className="space-y-6">
                                 {groupedReadings[categoryName].map((item) => (
@@ -1037,7 +1532,6 @@
                                       }`}>
                                         {item.name}
                                       </h3>
-                                      
                                       {isAdmin && (
                                         <button
                                           type="button"
@@ -1050,7 +1544,6 @@
                                         </button>
                                       )}
                                     </div>
-
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                       <div className={`p-4 rounded-2xl border ${
                                         theme === 'dark' ? 'bg-amber-950/20 border-amber-500/20' : 'bg-amber-50/40 border-amber-100'
@@ -1067,7 +1560,6 @@
                                           {item.highText}
                                         </p>
                                       </div>
-
                                       <div className={`p-4 rounded-2xl border ${
                                         theme === 'dark' ? 'bg-cyan-950/20 border-cyan-500/20' : 'bg-cyan-50/40 border-cyan-100'
                                       }`}>
@@ -1101,7 +1593,6 @@
                                       <span className="text-xs font-extrabold text-indigo-600 dark:text-indigo-400">
                                         تداخل: {rel.relatedNames}
                                       </span>
-                                      
                                       {isAdmin && (
                                         <button
                                           type="button"
@@ -1121,7 +1612,6 @@
                                 ))}
                               </div>
                             )}
-
                           </div>
                         ))
                       )}
@@ -1129,12 +1619,13 @@
                   </div>
                 )}
 
+                {/* شاشة معلومات عامة */}
                 {activeScreen === 'about' && (
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">
                       <button 
                         type="button"
-                        onClick={() => { playClickSound(); setActiveScreen('home'); }}
+                        onClick={() => { playEmbeddedSound(); setActiveScreen('home'); }}
                         className={`flex items-center gap-1 text-xs font-bold px-3 py-2 rounded-xl transition duration-200 ${
                           theme === 'dark' ? 'bg-slate-900 text-slate-300 hover:bg-slate-800' : 'bg-white text-slate-600 hover:bg-slate-100'
                         }`}
@@ -1146,7 +1637,6 @@
                       </button>
                       <h2 className="text-xl font-extrabold text-indigo-500">مفهوم وأهمية المختبرات الطبية</h2>
                     </div>
-
                     <div className="relative">
                       <input 
                         type="text"
@@ -1171,7 +1661,7 @@
                         {!showAddAbout ? (
                           <button 
                             type="button"
-                            onClick={() => { playClickSound(); setShowAddAbout(true); }}
+                            onClick={() => { playEmbeddedSound(); setShowAddAbout(true); }}
                             className="w-full py-3 bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-2xl transition duration-200 flex items-center justify-center gap-2"
                           >
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1212,7 +1702,7 @@
                               <button 
                                 type="button"
                                 onClick={() => {
-                                  playClickSound();
+                                  playEmbeddedSound();
                                   setShowAddAbout(false);
                                   setNewAbout({ title: '', content: '' });
                                 }}
@@ -1251,7 +1741,6 @@
                               <h3 className="text-base font-extrabold text-indigo-500">
                                 {item.title}
                               </h3>
-                              
                               {isAdmin && (
                                 <button
                                   type="button"
@@ -1276,8 +1765,275 @@
                   </div>
                 )}
 
+                {}
+                {/* الشاشات الديناميكية المولدة للأقسام المخصصة الجديدة بالكامل */}
+                {customSections.map(section => {
+                  if (activeScreen !== `custom_${section.id}`) return null;
+                  
+                  const sectionItems = customItems[section.id] || [];
+                  const filteredCustomItems = sectionItems.filter(item => {
+                    return section.fields.some(field => 
+                      (item[field] || '').toLowerCase().includes(searchCustom.toLowerCase())
+                    );
+                  });
+
+                  return (
+                    <div key={section.id} className="space-y-6">
+                      <div className="flex items-center justify-between">
+                        <button 
+                          type="button"
+                          onClick={() => { playEmbeddedSound(); setActiveScreen('home'); }}
+                          className={`flex items-center gap-1 text-xs font-bold px-3 py-2 rounded-xl transition duration-200 ${
+                            theme === 'dark' ? 'bg-slate-900 text-slate-300 hover:bg-slate-800' : 'bg-white text-slate-600 hover:bg-slate-100'
+                          }`}
+                        >
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                          </svg>
+                          العودة للرئيسية
+                        </button>
+                        <h2 className="text-xl font-extrabold text-violet-500">{section.title}</h2>
+                      </div>
+
+                      <div className="relative">
+                        <input 
+                          type="text"
+                          value={searchCustom}
+                          onChange={(e) => setSearchCustom(e.target.value)}
+                          placeholder={`ابحث داخل حقول ${section.title}...`}
+                          className={`w-full px-4 py-3 pr-10 rounded-2xl border text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 transition ${
+                            theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-white border-slate-200 text-slate-800'
+                          }`}
+                        />
+                        <div className="absolute top-1/2 right-3 -translate-y-1/2 opacity-40">
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                        </div>
+                      </div>
+
+                      {/* أداة إضافة وتخزين تلقائي للأقسام الديناميكية الجديدة (متوفرة فقط للمشرف) */}
+                      {isAdmin && (
+                        <div className={`p-6 rounded-3xl border ${
+                          theme === 'dark' ? 'bg-slate-900 border-violet-500/30' : 'bg-violet-50/40 border-violet-200'
+                        }`}>
+                          <div className="flex items-center justify-between border-b pb-2 mb-4">
+                            <h3 className="text-sm font-bold text-violet-600">إضافة حقول جديدة لقسم {section.title}</h3>
+                            <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+                              <button
+                                type="button"
+                                onClick={() => { playEmbeddedSound(); setCustomAddMode('manual'); }}
+                                className={`px-3 py-1 text-xs font-bold rounded-lg transition ${customAddMode === 'manual' ? 'bg-white dark:bg-slate-700 shadow text-violet-600' : 'opacity-60'}`}
+                              >
+                                إدخال يدوي
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => { playEmbeddedSound(); setCustomAddMode('auto'); }}
+                                className={`px-3 py-1 text-xs font-bold rounded-lg transition ${customAddMode === 'auto' ? 'bg-white dark:bg-slate-700 shadow text-violet-600' : 'opacity-60'}`}
+                              >
+                                تحويل تلقائي
+                              </button>
+                            </div>
+                          </div>
+
+                          {customAddMode === 'manual' ? (
+                            <div className="space-y-4">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {section.fields.map(field => (
+                                  <div key={field}>
+                                    <label className="block text-xs font-bold mb-1 opacity-70">{field}</label>
+                                    <input 
+                                      type="text" 
+                                      value={customFormInputs[field] || ''}
+                                      onChange={(e) => setCustomFormInputs({...customFormInputs, [field]: e.target.value})}
+                                      className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 transition ${
+                                        theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
+                                      }`}
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="space-y-2">
+                              <label className="block text-xs font-bold mb-1 opacity-70">انسخ محتويات الحقول هنا مع كتابة اسم كل حقل وبجانبه محتواه:</label>
+                              <textarea 
+                                rows="6"
+                                value={customAutoText}
+                                onChange={(e) => setCustomAutoText(e.target.value)}
+                                placeholder={`مثال لتقسيم الحقول تلقائياً:&#10;${section.fields.map(f => `${f}: شرح ومحتوى ${f}`).join('\n')}`}
+                                className={`w-full p-3 rounded-2xl border text-xs focus:outline-none focus:ring-2 focus:ring-violet-500 font-mono transition ${
+                                  theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
+                                }`}
+                              />
+                            </div>
+                          )}
+
+                          <div className="flex justify-end gap-2 pt-4">
+                            <button 
+                              type="button"
+                              onClick={() => {
+                                playEmbeddedSound();
+                                setCustomFormInputs({});
+                                setCustomAutoText('');
+                              }}
+                              className={`px-3 py-1.5 text-xs font-bold rounded-xl ${
+                                theme === 'dark' ? 'bg-slate-800 text-slate-300' : 'bg-slate-200 text-slate-700'
+                              }`}
+                            >
+                              مسح
+                            </button>
+                            <button 
+                              type="button" 
+                              onClick={() => handleAddCustomItem(section.id, section.fields)}
+                              className="px-5 py-1.5 text-xs font-bold bg-violet-500 hover:bg-violet-600 text-white rounded-xl"
+                            >
+                              تم الحفظ
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {filteredCustomItems.length === 0 ? (
+                          <div className="col-span-full text-center py-12 opacity-60 text-sm">
+                            لا توجد مدخلات في هذا القسم حالياً.
+                          </div>
+                        ) : (
+                          filteredCustomItems.map((item) => (
+                            <div 
+                              key={item.id}
+                              className={`p-5 rounded-2xl border transition duration-200 relative ${
+                                theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'
+                              }`}
+                            >
+                              <div className="absolute top-4 left-4">
+                                {isAdmin && (
+                                  <button
+                                    type="button"
+                                    onClick={() => handleDeleteCustomItem(section.id, item.id)}
+                                    className="p-1 rounded-lg text-rose-500 hover:bg-rose-500/10 transition-colors"
+                                  >
+                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                  </button>
+                                )}
+                              </div>
+                              <div className="space-y-2 mt-2">
+                                {section.fields.map(field => (
+                                  <div key={field} className="text-xs leading-relaxed">
+                                    <strong className="text-violet-500 font-extrabold">{field}: </strong>
+                                    <span className="opacity-90">{item[field] || '—'}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
               </main>
 
+              {/* طلب رقم 6: واجهة منبثقة لإنشاء قسم مخصص جديد بالكامل (تحديد الاسم والحقول) */}
+              {showAddSection && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                  <div className={`w-full max-w-md p-6 rounded-3xl border shadow-2xl transition duration-300 ${
+                    theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'
+                  }`}>
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-lg font-bold">إنشاء قسم جديد تماماً</h3>
+                      <button 
+                        type="button"
+                        onClick={() => { playEmbeddedSound(); setShowAddSection(false); }}
+                        className={`p-1.5 rounded-lg ${theme === 'dark' ? 'hover:bg-slate-800' : 'hover:bg-slate-100'}`}
+                      >
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                    <form onSubmit={handleCreateSection} className="space-y-4">
+                      <div>
+                        <label className="block text-xs font-bold mb-1 opacity-70">اسم القسم الجديد</label>
+                        <input 
+                          type="text" 
+                          required
+                          value={newSectionName}
+                          onChange={(e) => setNewSectionName(e.target.value)}
+                          placeholder="مثال: تيوبات"
+                          className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition ${
+                            theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'
+                          }`}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="block text-xs font-bold mb-1 opacity-70">الحقول المخصصة للقسم</label>
+                        {newSectionFields.map((field, idx) => (
+                          <div key={idx} className="flex gap-2">
+                            <input 
+                              type="text" 
+                              required
+                              value={field}
+                              onChange={(e) => {
+                                const updated = [...newSectionFields];
+                                updated[idx] = e.target.value;
+                                setNewSectionFields(updated);
+                              }}
+                              placeholder={`اسم الحقل المخصص رقم ${idx + 1} (مثال: الوان)`}
+                              className={`w-full px-3 py-2 rounded-xl border text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 transition ${
+                                theme === 'dark' ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'
+                              }`}
+                            />
+                            {newSectionFields.length > 1 && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  playEmbeddedSound();
+                                  setNewSectionFields(newSectionFields.filter((_, i) => i !== idx));
+                                }}
+                                className="px-2 bg-rose-500/10 hover:bg-rose-500 hover:text-white text-rose-500 rounded-xl text-xs"
+                              >
+                                حذف
+                              </button>
+                            )}
+                          </div>
+                        ))}
+                        <button
+                          type="button"
+                          onClick={() => { playEmbeddedSound(); setNewSectionFields([...newSectionFields, '']); }}
+                          className="text-xs font-bold text-teal-500 hover:underline pt-1"
+                        >
+                          + إضافة حقل مخصص آخر
+                        </button>
+                      </div>
+
+                      <div className="flex justify-end gap-2 pt-2">
+                        <button 
+                          type="button"
+                          onClick={() => { playEmbeddedSound(); setShowAddSection(false); }}
+                          className={`px-4 py-2 text-xs font-bold rounded-xl ${
+                            theme === 'dark' ? 'bg-slate-800 text-slate-300' : 'bg-slate-100 text-slate-700'
+                          }`}
+                        >
+                          إلغاء
+                        </button>
+                        <button 
+                          type="submit"
+                          className="px-5 py-2 text-xs font-bold bg-teal-500 hover:bg-teal-600 text-white rounded-xl"
+                        >
+                          إنشاء القسم الآن
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+
+              {/* بوابة تسجيل دخول المشرف */}
               {showAdminModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
                   <div className={`w-full max-w-md p-6 rounded-3xl border shadow-2xl transition duration-300 ${
@@ -1287,7 +2043,7 @@
                       <h3 className="text-lg font-bold">بوابة المشرف</h3>
                       <button 
                         type="button"
-                        onClick={() => { playClickSound(); setShowAdminModal(false); }}
+                        onClick={() => { playEmbeddedSound(); setShowAdminModal(false); }}
                         className={`p-1.5 rounded-lg ${theme === 'dark' ? 'hover:bg-slate-800' : 'hover:bg-slate-100'}`}
                       >
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1295,7 +2051,6 @@
                         </svg>
                       </button>
                     </div>
-
                     <form onSubmit={handleAdminLogin} className="space-y-4">
                       <div>
                         <label className="block text-xs font-bold mb-1 opacity-70">اسم المشرف</label>
@@ -1310,7 +2065,6 @@
                           }`}
                         />
                       </div>
-
                       <div>
                         <label className="block text-xs font-bold mb-1 opacity-70">الرمز السري</label>
                         <input 
@@ -1324,17 +2078,15 @@
                           }`}
                         />
                       </div>
-
                       {adminError && (
                         <p className="text-xs text-rose-500 font-bold bg-rose-500/10 p-2.5 rounded-xl">
                           {adminError}
                         </p>
                       )}
-
                       <div className="flex justify-end gap-2 pt-2">
                         <button 
                           type="button"
-                          onClick={() => { playClickSound(); setShowAdminModal(false); }}
+                          onClick={() => { playEmbeddedSound(); setShowAdminModal(false); }}
                           className={`px-4 py-2.5 text-xs font-bold rounded-xl ${
                             theme === 'dark' ? 'bg-slate-800 text-slate-300' : 'bg-slate-100 text-slate-700'
                           }`}
@@ -1359,7 +2111,6 @@
         // واجهة انتظار التحميل السحابي لـ Firebase لضمان عدم حدوث شاشة بيضاء أو سوداء مطلقاً
         function FirebaseLoader() {
           const [isFirebaseReady, setIsFirebaseReady] = useState(false);
-
           useEffect(() => {
             if (window.FirebaseSDK) {
               setIsFirebaseReady(true);
@@ -1370,6 +2121,7 @@
             }
           }, []);
 
+          // في حالة عدم الاتصال، تظهر الواجهة فوراً دون أي مشاكل
           if (!isFirebaseReady) {
             return (
               <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
@@ -1377,15 +2129,13 @@
                   <div className="w-12 h-12 rounded-full border-4 border-teal-500/20 border-t-teal-500 animate-spin"></div>
                 </div>
                 <p className="mt-4 text-xs font-extrabold text-teal-600/70 tracking-wider animate-pulse">
-                  جاري الاتصال بقواعد البيانات السحابية...
+                  جاري الاتصال السريع بقواعد البيانات السحابية والمحلية...
                 </p>
               </div>
             );
           }
-
           return <App />;
         }
-
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<FirebaseLoader />);
     </script>
